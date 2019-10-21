@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SubjectService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">codetest</a> &gt; <a href="index.source.html" class="el_package">com.brightflag.service</a> &gt; <span class="el_source">SubjectService.java</span></div><h1>SubjectService.java</h1><pre class="source lang-java linenums">package com.brightflag.service;
+
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.brightflag.domain.Grade;
+import com.brightflag.domain.Student;
+import com.brightflag.domain.Subject;
+import com.brightflag.interfaces.IStudentService;
+import com.brightflag.interfaces.ISubjectService;
+import com.brightflag.repository.GradeToStudentRepository;
+import com.brightflag.repository.SubjectRepository;
+import com.brightflag.repository.SubjectToStudentRepository;
+
+@Service
+<span class="fc" id="L22">public class SubjectService implements ISubjectService{</span>
+<span class="fc" id="L23">	private static Logger log = LogManager.getLogger(SubjectService.class.getName());</span>
+	
+	@Autowired 
+	IStudentService studentService;
+	
+	@Autowired
+	SubjectToStudentRepository subjectToStudentRepository;
+	
+	@Autowired
+	SubjectRepository subjectRepository;
+	
+	@Autowired
+	GradeToStudentRepository gradeToStudentRepository;
+	
+	
+	public int assignStudentToSubject(String name, Integer subjectID) throws Exception {
+<span class="fc" id="L39">		String firstName = &quot;&quot;;</span>
+<span class="fc" id="L40">		String lastName = &quot;&quot;;</span>
+		
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">		if (isValidName(name)) {</span>
+<span class="fc" id="L43">			int indexOfSpace = name.indexOf(&quot; &quot;);</span>
+<span class="fc" id="L44">			firstName = name.substring(0, indexOfSpace );</span>
+<span class="fc" id="L45">			lastName = name.substring(indexOfSpace + 1);</span>
+<span class="fc" id="L46">		    log.info(&quot;Valid name.&quot;);</span>
+<span class="fc" id="L47">		} else {</span>
+<span class="nc" id="L48">			log.info(&quot;Invalid name, throwing illegal argument exception&quot;);</span>
+<span class="nc" id="L49">			throw new IllegalArgumentException(&quot;Illegal characters for student name. Please try again.&quot;);</span>
+		}
+				
+<span class="fc" id="L52">		Student student = studentService.getStudent(firstName, lastName);</span>
+		
+<span class="fc" id="L54">		log.info(&quot;Checking to see if the student exists and if they are already assigned to this subject&quot;);</span>
+<span class="pc bpc" id="L55" title="1 of 4 branches missed.">		if (student == null  || isStudentAssignedSubject(student.getStudentID(),subjectID)) {	</span>
+<span class="fc" id="L56">			log.info(&quot;Student either doesn't exist or they are already assigned to this subject&quot;);</span>
+<span class="fc" id="L57">			throw new Exception(&quot;Unable to assign student to subject. Student either doesn't exist or is already assigned to this subject.&quot;); </span>
+		}  else {
+<span class="fc" id="L59">			log.info(&quot;Student exists, attempting to assign to subject&quot;);</span>
+<span class="fc" id="L60">			return subjectToStudentRepository.assignStudentToSubject(student.getStudentID(), subjectID);</span>
+		}
+		
+	}
+	
+	// Sanitize user input to ensure that the name entered contains only valid characters, a-z, a space or these characters ' -
+	public boolean isValidName(String name) {
+<span class="fc" id="L67">		String regx = &quot;^[A-Za-z\\s'-]+$&quot;;									</span>
+<span class="fc" id="L68">	    Pattern pattern = Pattern.compile(regx,Pattern.CASE_INSENSITIVE);</span>
+<span class="fc" id="L69">	    Matcher matcher = pattern.matcher(name);</span>
+	    
+<span class="fc" id="L71">	    log.info(&quot;Checking if name entered is a valid name: &quot; + name);</span>
+<span class="pc bpc" id="L72" title="2 of 4 branches missed.">	    return matcher.find() &amp;&amp; name.contains(&quot; &quot;);</span>
+	}
+	
+
+	public List&lt;Subject&gt; getAllSubjects() {
+<span class="nc" id="L77">		return subjectRepository.getAllSubjects();</span>
+	}
+	
+	public boolean isStudentAssignedSubject(int studentID, int subjectID) {
+<span class="fc" id="L81">		boolean assignedToSubject = subjectToStudentRepository.isStudentAssignedSubject(studentID, subjectID);</span>
+		
+<span class="fc bfc" id="L83" title="All 2 branches covered.">		if (assignedToSubject) {</span>
+<span class="fc" id="L84">			log.info(&quot;Student is already assigned to this subject&quot;);</span>
+<span class="fc" id="L85">			return true;</span>
+		} else {
+<span class="fc" id="L87">			log.info(&quot;Student is not assigned to this subject&quot;);</span>
+<span class="fc" id="L88">			return false;</span>
+		}
+	}
+	
+	public List&lt;Student&gt; getAllStudentsForSubject(int subjectID) {
+<span class="fc" id="L93">		List&lt;Student&gt; students = subjectToStudentRepository.getStudentsBySubjectID(subjectID);</span>
+		
+<span class="fc bfc" id="L95" title="All 2 branches covered.">		if (students == null) {</span>
+<span class="fc" id="L96">			log.info(&quot;No students found for the given subject&quot;);</span>
+<span class="fc" id="L97">			return null;</span>
+		}
+		
+<span class="fc" id="L100">		log.info(&quot;Students have been assigned to this subject&quot;);</span>
+		
+<span class="fc bfc" id="L102" title="All 2 branches covered.">		for (Student student :  students) {					// get the grades for each student for this subject</span>
+<span class="fc" id="L103">			int studentID = student.getStudentID();</span>
+<span class="fc" id="L104">			log.info(&quot;Retrieving and storing grade for student in this subject&quot;);</span>
+<span class="fc" id="L105">			Grade grade = gradeToStudentRepository.getStudentsBySubjectID(studentID,  subjectID);</span>
+<span class="fc" id="L106">			student.setGrade(grade);</span>
+<span class="fc" id="L107">		}</span>
+		
+<span class="fc" id="L109">		return students;</span>
+	}
+	
+	public Subject getSubjectBySubjectID(int subjectID) {
+<span class="nc" id="L113">		return subjectRepository.getSubjectBySubjectID(subjectID);</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

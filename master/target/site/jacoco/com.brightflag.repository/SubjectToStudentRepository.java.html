@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SubjectToStudentRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">codetest</a> &gt; <a href="index.source.html" class="el_package">com.brightflag.repository</a> &gt; <span class="el_source">SubjectToStudentRepository.java</span></div><h1>SubjectToStudentRepository.java</h1><pre class="source lang-java linenums">package com.brightflag.repository;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+import com.brightflag.domain.Student;
+
+@Repository
+<span class="fc" id="L13">public class SubjectToStudentRepository {</span>
+	@Autowired
+	JdbcTemplate jdbcTemplate;
+	
+<span class="fc" id="L17">	private final String sqlGetStudentsBySubjectID = </span>
+			&quot;SELECT student.firstName, student.LastName, student.studentID FROM student, subjectToStudent &quot;
+			+ &quot;WHERE subjectToStudent.subjectID = ? AND student.studentID = subjectToStudent.studentID&quot;;
+<span class="fc" id="L20">	private final String sqlGetAStudentsSubjectsByID = &quot;SELECT * FROM subjectToStudent WHERE studentID = ?&quot;;</span>
+<span class="fc" id="L21">	private final String sqlAssignStudentToSubject = &quot;INSERT INTO subjectToStudent VALUES(?, ?)&quot;;</span>
+<span class="fc" id="L22">	private final String sqlIsStudentAssignedToSubject = &quot;SELECT count(*) FROM subjectToStudent WHERE studentID = ? AND subjectID = ?&quot;;</span>
+	
+	public int assignStudentToSubject(Integer studentID, Integer subjectID) {
+<span class="nc" id="L25">		return  jdbcTemplate.update(sqlAssignStudentToSubject, studentID, subjectID );</span>
+	}
+	
+	public boolean isStudentAssignedSubject(Integer studentID, Integer subjectID) {
+<span class="nc" id="L29">		Integer count = jdbcTemplate.queryForObject(sqlIsStudentAssignedToSubject, new Object[] {studentID, subjectID}, </span>
+				Integer.class);
+		
+<span class="nc bnc" id="L32" title="All 2 branches missed.">		return count &gt; 0;</span>
+	}
+	
+	public List&lt;Student&gt; getStudentsBySubjectID(int subjectID) {
+<span class="nc" id="L36">		return jdbcTemplate.query(sqlGetStudentsBySubjectID, new Object[] {subjectID}, </span>
+				new BeanPropertyRowMapper&lt;Student&gt;(Student.class));
+	}
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

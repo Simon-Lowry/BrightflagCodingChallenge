@@ -1,0 +1,17 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+codetest,com.brightflag.repository,SubjectRepository,28,9,0,0,3,3,2,1,2,1
+codetest,com.brightflag.repository,StudentRepository,49,11,0,0,7,3,2,2,2,2
+codetest,com.brightflag.repository,SubjectToStudentRepository,55,15,2,0,4,5,4,1,3,1
+codetest,com.brightflag.repository,ExamRepository,0,3,0,0,0,1,0,1,0,1
+codetest,com.brightflag.repository,GradeToStudentRepository,42,11,0,0,6,3,1,2,1,2
+codetest,com.brightflag.codetest,Application,5,3,0,0,2,1,1,1,1,1
+codetest,com.brightflag.codetest,ApplicationContainer,0,7,0,0,0,3,0,2,0,2
+codetest,com.brightflag.controller,SubjectAPIController,37,59,0,2,6,11,3,4,3,3
+codetest,com.brightflag.controller,StudentAPIController,15,8,0,0,2,2,1,2,1,2
+codetest,com.brightflag.service,SubjectService,18,166,4,12,4,40,6,10,2,6
+codetest,com.brightflag.service,ExamService,0,3,0,0,0,1,0,1,0,1
+codetest,com.brightflag.service,StudentService,15,3,0,0,3,1,3,1,3,1
+codetest,com.brightflag.domain,Grade,20,14,0,0,2,6,2,4,2,4
+codetest,com.brightflag.domain,Exam,34,0,0,0,8,0,6,0,6,0
+codetest,com.brightflag.domain,Student,29,31,0,0,4,13,3,9,3,9
+codetest,com.brightflag.domain,Subject,52,0,0,0,16,0,11,0,11,0
