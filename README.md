@@ -1,11 +1,5 @@
 # BrightflagCodingChallenge
 
-# Brightflag Code Test - Getting Started & Questions
-
-### Running the application
-1. Run src/main/com/brightflag/codetest/Application.java as a Spring Boot app
-2. Open [http://localhost:8080/](http://localhost:8080/)
-
 ## Application requirements
 1. Students take multiple subjects and subjects have multiple students taking them
 2. Students take multiple exams
