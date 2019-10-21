@@ -24,7 +24,7 @@ The home page is a list of subjects which are links to individual subject pages.
 
 I added a couple of extra table to faciliate the requirements of matching subjects to students as well as grades to student by subject. These linking tables make use of composite primary keys which are made up of foreign keys from their respective tables. There are also sample entries in the sql script for these tables for testing purposes.
 
-I added some plugins in maven. One for the logging another for Jacoco. The Jacoco plug-in produce test reports showing which tests have passed and to show percentage of line coverage and branches coverage. The logging is used throughout the project.
+I added some plugins in maven. One for the logging and another for Jacoco. The Jacoco plug-in produce test reports showing which tests have passed and to show percentage of line coverage and branches coverage. The logging is used throughout the project.
 
 Given more time I would have:
 - Completed functionality for adding grades for a student
