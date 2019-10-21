@@ -94,7 +94,7 @@ public class SubjectServiceTests {
 		verify(mockSubjectToStudentRepository, times(1)).isStudentAssignedSubject(any(Integer.class), any(Integer.class));
 	}
 
-	// getAllStudentsForSubject tests
+	
 	@Test
 	public void GivenSubjectID_WhenGetAllStudentsForSubjectCalled_AndNoStudentsReturned_ReturnNull() {
 		// Arrange
@@ -110,7 +110,6 @@ public class SubjectServiceTests {
 	}
 	
 	
-	// assignStudentToSubject
 	@Test(expected = IllegalArgumentException.class)
 	public void GivenInvalidName_WhenAssignStudentToSubjectCalled_ThrowIllegalArgumentException(String name) throws Exception {
 		thrown.expect(IllegalArgumentException.class);
@@ -118,7 +117,6 @@ public class SubjectServiceTests {
 	}
 	
 	
-	//subjectToStudentRepository.assignStudentToSubject(student.getStudentID(), subjectID);
 	@Test
 	public void GivenValidName_ForStudentNotAssigned_WhenAssignStuedentToSubjectCalled_ReturnOne() throws Exception {
 		// Arrange
