@@ -1,0 +1,52 @@
+
+<br/><br/>
+<h1>Subject Page - {{subject.subjectName}}</h1>
+<br/><br/>
+<div class="container">
+  <table class="table table-bordered table-inverse">
+    <tr>
+      <th>Student Name</th>
+      <th>Student Id</th>
+      <th>Grade</th>
+    </tr>
+    <tr *ngFor="let student of students"> <!-- ng for loop which loops through bikes as each singular bike and displayes  -->
+      <td>
+        {{student.firstName}} {{student.lastName}}
+      </td>
+      <td>
+        {{student.studentID}}
+      </td>
+      <td> <div *ngIf="!(student.grade === null)"> {{student.grade.gradeName}}</div></td>
+    </tr>
+  </table>
+</div>
+<div class="container">
+      <hr/>
+      <h4>Add a student to class</h4>
+      <br/>
+      <form [formGroup]="addStudentForm" (ngSubmit)="addStudentToClass()" novalidate>
+        <div class="form-group">
+          <label>Name:</label>
+          <input type="text" class="form-control" formControlName="name" required/>
+        </div>
+        <div class="form-group">
+          <input type="hidden" class="form-control" formControlName="subjectID" value="{{subject.subjectID}}"/>
+        </div>
+        <button type="submit" class="btn btn-primary" >Submit</button>
+      </form>
+      <br/>
+      <div *ngIf="errorMessage != ''">
+          <div class = "alert alert-danger">
+            <h3>{{errorMessage}}</h3>
+          </div>
+      </div>
+      <div *ngIf="validMessage != ''">
+          <div class = "alert alert-success">
+            <h3>{{validMessage}}</h3>
+          </div>
+      </div>
+      <br/><br/><br/><br/>
+      <button type = "button" class = "btn btn-info" routerLink="">
+        Return
+      </button>
+</div>

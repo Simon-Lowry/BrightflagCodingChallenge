@@ -1,0 +1,14 @@
+<div class="container">
+<table class="table table-bordered table-inverse" style="padding-top:20px">
+  <tr>
+    <th style="text-align:center"><h1>Subjects</h1></th>
+  </tr>
+  <tr *ngFor="let subject of subjects" >
+    <td>
+      <button type = "button" class = "btn btn-default btn-lg btn-block" routerLink="subject/{{subject.subjectID}}">
+        {{subject.subjectName}}
+      </button>
+    </td>
+  </tr>
+</table>
+</div>
